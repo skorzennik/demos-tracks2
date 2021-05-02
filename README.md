@@ -46,24 +46,26 @@ Usage:
  I include a few TCX files, the background Google Maps and some examples of outputs
 
 ```
-   210225.tcx
+   210225.tcx            - test TCX files
    210418.tcx
    210427.tcx
    210501.tcx
 
-   gmap-road.jpg
+   gmap-road.jpg         - background map for route
    gmap-satellite.jpg
 
-   stats-210418.png
+   stats-210418.png      - output from processing 210418.tcx
    route-210418.png
 
    stats-210501.png
    route-210501.png
    route-210501-satellite.png
+
+   gmap.html             - overplot on Google Map
 ```
 
   It is relatively easy to customize the background Google Map for an different
 area, see comments in `getGMapImage()` defined in `plottrack.py`
 
-<- Last updated: Sat May  1 21:42:50 2021 -> SGK
+<- Last updated: Sat May  1 21:51:49 2021 -> SGK
 
