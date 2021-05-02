@@ -5,7 +5,7 @@
 #   handle missing cadence and missing HR 
 #   gmap: get apikey from $APIKEY
 #
-# <- Last updated: Sat May  1 20:39:24 2021 -> SGK
+# <- Last updated: Sun May  2 15:04:47 2021 -> SGK
 #
 # this allows matplotlib to plot to file when there is no display 
 import os, matplotlib
@@ -37,7 +37,8 @@ if __name__ == '__main__':
         exit()
     #
     # read the TCX file and store it in a pandas data frame
-    trackDF = readTrack(opts['fileName'])
+    trackDF = readTrack(opts['fileName'],
+                        silent = opts['useTable'])
     #
     # process the track, returns a numpy data array
     # and infos (which col is what) and stats 
@@ -47,7 +48,8 @@ if __name__ == '__main__':
                                         velMax   = opts['velMax'],
                                         grdMax   = opts['grdMax'],
                                         cadMin   = opts['cadMin'],
-                                        hrMin    = opts['hrMin'] )
+                                        hrMin    = opts['hrMin'],
+                                        silent   = opts['useTable'])
     #
     # overlay on a Google map
     if (opts['plotType'] == 'gmap'):
@@ -57,7 +59,7 @@ if __name__ == '__main__':
     elif (opts['plotType'] != '-'):
         doPlot(data, infos, stats,
                plotType = opts['plotType'],
-               useRoad = opts['useRoad'],   noRoute = opts['noRoute'],
+               useRoad  = opts['useRoad'],  noRoute = opts['noRoute'],
                plotSize = opts['plotSize'], plotVS  = opts['plotVS'],
                velMin   = opts['velMin'],   velMax  = opts['velMax'],
                cadMin   = opts['cadMin'])

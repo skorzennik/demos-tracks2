@@ -5,7 +5,7 @@
 #  findIfDST()
 #  putID()
 #  saveFig()
-# <- Last updated: Sat May  1 20:39:23 2021 -> SGK
+# <- Last updated: Sun May  2 09:43:59 2021 -> SGK
 #
 from datetime import datetime
 import sys, os
@@ -27,7 +27,7 @@ def formatTime(t):
     else:
         m = int(t)
         s = (t-m)*60
-        ms = round((s - int(s))*10)
+        ms = int((s - int(s))*10)
         s = int(s)
         str = '{:02d}:{:02d}.{:01d}'.format(m, s, ms)
     return str

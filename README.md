@@ -50,6 +50,7 @@ Usage:
    210418.tcx
    210427.tcx
    210501.tcx
+   210502.tcx
 
    gmap-road.jpg         - background map for route
    gmap-satellite.jpg
@@ -61,11 +62,13 @@ Usage:
    route-210501.png
    route-210501-satellite.png
 
+   stats-210502.png
+   route-210502.png
+
    gmap.html             - overplot on Google Map
 ```
 
   It is relatively easy to customize the background Google Map for an different
 area, see comments in `getGMapImage()` defined in `plottrack.py`
 
-<- Last updated: Sat May  1 21:51:49 2021 -> SGK
-
+<- Last updated: Sun May  2 15:28:59 2021 -> SGK

@@ -2,7 +2,7 @@
 # track lib: read and process a TCX file
 #  readTrack()
 #  processTrack()
-# <- Last updated: Sat May  1 20:37:14 2021 -> SGK
+# <- Last updated: Sun May  2 15:11:00 2021 -> SGK
 #
 import re
 import xml.etree.ElementTree as ET
@@ -17,14 +17,16 @@ from utilslib import formatTime, findIfDST
 # ---------------------------------------------------------------------------
 # read a TCX file, using xml.etree.ElementTree to parse the xml
 #   found how to do this by googling
-def readTrack(fn):
+def readTrack(fn,
+              silent = False):
     """
     read a TCX file (fn) and returns a Data Frame (pandas)
     """
     #
     # data array of values
     data = []
-    print('reading', fn)
+    if not silent:
+        print('reading', fn)
     #
     with open(fn) as xml_file:
         # get the xml string
@@ -88,7 +90,8 @@ def processTrack(trackDF,
                  cadMin = 10,      # min cadence for stats
                  hrMin  = 50,      # min HR      for stats
                  lonRef = -71.3646464, # some lon/lat ref locations
-                 latRef =  42.4358983):
+                 latRef =  42.4358983,
+                 silent = False):
     """
     process/analyze the track, return a data array and print some stats
         as read in the trackDF data frame
@@ -104,11 +107,19 @@ def processTrack(trackDF,
     """
     #
     # format of time stamps
-    timeFormat = '%Y-%m-%dT%H:%M:%SZ'
+    timeFormat = '%Y-%m-%dT%H:%M:%S'
     #
     # start time, convert to Unix time (seconds elaspsed since 1970)
     t0 = trackDF['Time'][0]
-    tz = datetime.strptime(t0, timeFormat).timestamp()
+    # adjust time stamp format for diff TCX
+    if ('Z' in t0):
+        timeFormat += 'Z'
+        tz = datetime.strptime(t0, timeFormat).timestamp()
+    elif ('+00:00' in t0):
+        timeFormat += '+00:00'
+        tz = datetime.strptime(t0, timeFormat).timestamp()
+    else:
+        tz = datetime.strptime(t0, timeFormat).timestamp()
     #
     # how many lines and columns
     nLines = len(trackDF)
@@ -248,7 +259,8 @@ def processTrack(trackDF,
     distance    *= km2mi
     mvgDistance *= km2mi
     #
-    print('data decoded')
+    if not silent:
+        print('data decoded')
     #
     # saves which col is what:unit as a space sep string
     infos = 'Time:min Longitude:o Latitude:o Altitude:ft ' + \
@@ -325,13 +337,10 @@ def processTrack(trackDF,
     stats['maxHeartRate'] = maxHR
     stats['avgCadence']   = avgCad
     stats['maxCadence']   = maxCad
-    ##
-    fmtStr = 'moving velocity range: [{:.2f}, {:.2f}] mph'
-    print(fmtStr.format(velMin, velMax))
     #
     # print ride stats
     if useTable:
-        fmtStr = '{} {} {} {} ' + \
+        fmtStr = '{} {:8s} {:8s} {:7s} ' + \
             '{:6.2f} {:6.2f} {:6.2f} {:6.2f} '   + \
             '{:6.2f} {:6.2f} {:6.2f} {:6.2f} ' 
         print(fmtStr.format(tz,
@@ -344,6 +353,8 @@ def processTrack(trackDF,
                             avgHR, maxHR))
         
     else:
+        fmtStr = 'moving velocity range: [{:.2f}, {:.2f}] mph'
+        print(fmtStr.format(velMin, velMax))
         fmtStr = 'Started  {}'
         print(fmtStr.format(tz))
         #
