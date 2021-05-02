@@ -1,27 +1,40 @@
 # demos-tracks2
 
-Simple demo script to process a TCX track.
+Simple demo script to process a TCX (biking) track. (TCX stands for Training
+Center XML).
 
-This was an execise to practice/learn python programming.
+This was an excise to practice/learn coding in Python (can't really call it
+programming - LOL.)
 
 The main script `process-tcx.py` will read a TCX file, compute some of the ride
 statistics and plot the route on top of a static map taken from a Google Map
-screenshot (in fact two, one in road mode, one in satellite mode). 
+screen-shot (in fact two, one in road mode, one in satellite mode). 
 
 The other `.py` files are the needed libraries (aka modules) used by the main
 script.
 
-I tested it on TCX files dowloaded from RideWithGPS, and they include heart rate
-and cadence information as well as GPS info.
+I tested it on TCX files downloaded from RideWithGPS and MapMyRide. Most of
+them include heart rate and cadence information as well as GPS info. 
 
-The script can also plot the route in a Google Map using the gmplot module and
-produce an html file.
+The script can also plot the route in a Google Map using the `gmplot` module and
+produce an `html` file.
 
 If you have a Google Cloud api key, store it in a APIKEY env. var, otherwise
 Google Map will add a watermark.
 
-It works fine with Python v3.7 or higher and need the `gmplot` module as well as
-the usual/typical ones.
+It works fine with Python v3.7 or higher and needs the `gmplot` module as well
+as the usual/typical other ones (`numpy`, `matplotlib`, etc). It has been run
+under Linux (CentOS 7.x) w/ v3.7 and under Windows 10 w/ v3.9 - sorry I do not
+do MacOS. You can install the `gmplot` module with `pip install gmplot` or
+`pip install --user gmplot` if you don't get elevated privileges on your
+machine (i.e. you can't become root).
+
+I ran it on 182 TCX files and got a few errors (4 or 5), most likely when some
+properties are all invalid and I divide by `sum(mask)` that is 0. This might
+get fixed in a later version, and I will look into getting the background map
+dynamically and better handling such maps. I may also change the plots layout.
+
+This was done for fun and to motivate an old dog to learn new tricks - so caveat emptor.
 
 ```
 Usage:
@@ -71,4 +84,4 @@ Usage:
   It is relatively easy to customize the background Google Map for an different
 area, see comments in `getGMapImage()` defined in `plottrack.py`
 
-<- Last updated: Sun May  2 15:28:59 2021 -> SGK
+<- Last updated: Sun May  2 15:49:39 2021 -> SGK
